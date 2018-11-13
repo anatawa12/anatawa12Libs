@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="anatawa12CoreLibs_main" target="1.8" />
+      <module name="anatawa12CoreLibs_test" target="1.8" />
+      <module name="anatawa12Libs_main" target="1.8" />
+      <module name="anatawa12Libs_test" target="1.8" />
+      <module name="com.anatawa12.libs_main" target="1.8" />
+      <module name="com.anatawa12.libs_test" target="1.8" />
+      <module name="yokohama.anatawa12.libs_main" target="1.8" />
+      <module name="yokohama.anatawa12.libs_test" target="1.8" />
+      <module name="yokohama.anatawa12.lua52_main" target="1.8" />
+      <module name="yokohama.anatawa12.lua52_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
