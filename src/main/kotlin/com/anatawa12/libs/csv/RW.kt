@@ -1,7 +1,6 @@
 package com.anatawa12.libs.csv
 
 import java.io.BufferedReader
-import kotlin.coroutines.experimental.buildSequence
 
 /**
  * Created by anatawa12 on 2018/03/04.
@@ -9,10 +8,10 @@ import kotlin.coroutines.experimental.buildSequence
 /**
  * read csv
  */
-fun readCsv(reader: BufferedReader, separater: Char = ',', quote: Char? = null): Sequence<Sequence<String>> = buildSequence {
+fun readCsv(reader: BufferedReader, separater: Char = ',', quote: Char? = null): Sequence<Sequence<String>> = sequence {
 	reader.lineSequence().forEach {
 		yield(
-				buildSequence {
+				sequence {
 					var builder = StringBuilder()
 					var state = State.Start
 					for (c in it) {

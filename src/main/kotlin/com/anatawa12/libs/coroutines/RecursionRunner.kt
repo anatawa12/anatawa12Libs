@@ -1,10 +1,7 @@
 package com.anatawa12.libs.coroutines
 
-import kotlin.coroutines.experimental.Continuation
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.EmptyCoroutineContext
-import kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlin.coroutines.*
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 
 
 /**
@@ -64,14 +61,14 @@ private class RecursionRunner<R, T>(val method: suspend (IRecursionRunner<R, T>.
 	}
 	override val context: CoroutineContext = EmptyCoroutineContext
 
-	override fun resume(value: R) {
-		status = RETURND
-		result = value
-	}
-
-	override fun resumeWithException(exception: Throwable) {
-		status = EXCEPTION
-		this.exception = exception
+	override fun resumeWith(result: Result<R>) {
+		if (result.isSuccess) {
+			status = RETURND
+			this.result = result.getOrNull()
+		} else {
+			status = EXCEPTION
+			this.exception = result.exceptionOrNull()
+		}
 	}
 
 

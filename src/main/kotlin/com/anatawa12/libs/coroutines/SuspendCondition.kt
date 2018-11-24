@@ -1,10 +1,11 @@
 package com.anatawa12.libs.coroutines
 
 import com.anatawa12.libs.collections.synchronized.synchronized
-import kotlinx.coroutines.experimental.sync.Mutex
+import kotlinx.coroutines.sync.Mutex
 import java.util.concurrent.locks.Condition
-import kotlin.coroutines.experimental.Continuation
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Created by anatawa12 on 2018/03/27.

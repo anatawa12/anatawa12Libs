@@ -1,15 +1,18 @@
 package com.anatawa12.libs.collections
 
 import com.anatawa12.libs.collections.synchronized.synchronized
+import com.anatawa12.libs.coroutines.coroutineScope
 import com.anatawa12.libs.coroutines.joinAll
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+
+//import kotlin.coroutines.coroutineContext
 
 /**
  * Created by anatawa12 on 2018/05/01.
@@ -26,7 +29,7 @@ suspend inline fun <T, R> Iterable<T>.asyncParallelMap(crossinline transform: (T
 	val destination = ArrayList<Deferred<R>>(defaultSize)
 
 	for (item in this) {
-		destination.add(async { transform(item) })
+		destination.add(coroutineScope().async { transform(item) })
 	}
 
 	return destination.map { it.await() }
@@ -63,7 +66,7 @@ suspend inline fun <T, R: Any> Iterable<T>.asyncParallelMapNotNull(crossinline t
 	val destination = ArrayList<Deferred<R?>>(defaultSize)
 
 	for (item in this) {
-		destination.add(async { transform(item) })
+		destination.add(coroutineScope().async { transform(item) })
 	}
 
 	return destination.mapNotNull { it.await() }
@@ -90,13 +93,13 @@ fun <T, R: Any> Iterable<T>.parallelMapNotNull(
 }
 
 /**
- * Performs the given [action] on each element in parallel.
+ * Performs the given [transform] on each element in parallel.
  */
-suspend inline fun <T> Iterable<T>.asyncParallelForEach(crossinline transform: suspend (T) -> Unit): Unit {
+suspend inline fun <T> Iterable<T>.asyncParallelForEach(crossinline transform: suspend (T) -> Unit) {
 	val defaultSize = if (this is Collection<*>) this.size else 10
 	val jobs = ArrayList<Job>(defaultSize)
 	for (item in this) {
-		jobs.add(launch { transform(item) })
+		jobs.add(coroutineScope().launch { transform(item) })
 	}
 	jobs.joinAll()
 }

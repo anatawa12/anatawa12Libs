@@ -66,10 +66,10 @@ data class Vec3i constructor(val x: Int, val y: Int, val z: Int) {
 	fun toVec3l(): Vec3l = Vec3l(x.toLong(), y.toLong(), z.toLong())
 	fun toVec3i(): Vec3i = this
 
-	operator fun plus(vec: Vec3i) = vec3Of(x + vec.x, y + vec.y, z + vec.z)
-	operator fun minus(vec: Vec3i) = vec3Of(x - vec.x, y - vec.y, z - vec.z)
-	operator fun times(other: Int) = vec3Of(x * other, y * other, z * other)
-	operator fun div(other: Int) = vec3Of(x / other, y / other, z / other)
+	operator fun plus(vec: Vec3i) = Vec3i(x + vec.x, y + vec.y, z + vec.z)
+	operator fun minus(vec: Vec3i) = Vec3i(x - vec.x, y - vec.y, z - vec.z)
+	operator fun times(other: Int) = Vec3i(x * other, y * other, z * other)
+	operator fun div(other: Int) = Vec3i(x / other, y / other, z / other)
 }
 
 @Deprecated("", replaceWith = ReplaceWith("Vec3d(x, y, z)", "com.anatawa12.libs.vector.Vec3d"))

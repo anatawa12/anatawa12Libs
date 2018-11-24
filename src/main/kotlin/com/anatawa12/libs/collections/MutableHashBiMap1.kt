@@ -173,7 +173,7 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 		return null
 	}
 
-	private fun addEntryToValue(hash: Int, inEntry: Entry) {
+	private fun addEntryToValue(inEntry: Entry) {
 		v2k[inEntry.vHash]?.also { it.addVBefore(inEntry) }
 				?: kotlin.run { v2k[inEntry.vHash] = inEntry }
 	}
@@ -182,7 +182,6 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 
 	private fun forcePut1(key: K, newValue: V): ForcePut {
 		val keyHash = key.hash()
-		val newValueHash = newValue.hash()
 		val newValueEntry = getEntryByValue(newValue)
 		val newKeyEntry = getEntryByKey(key, keyHash)
 		val newEntry = Entry(key, newValue)
@@ -195,7 +194,7 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 			newKeyEntry.swapK(newEntry)
 		}
 		if (newValueEntry == null) {
-			addEntryToValue(newValueHash, newEntry)
+			addEntryToValue(newEntry)
 		} else {
 			oldKey = newValueEntry.k
 			newValueEntry.swapK(newEntry)
@@ -377,6 +376,7 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 		override val value: K
 			get() = checkRemoved(entry.k)
 
+		@Suppress("NOTHING_TO_INLINE")
 		private inline fun <T> checkRemoved(result: T): T {
 			if (entry.isRemoved) error("this entry is not valid")
 			return result
@@ -445,7 +445,7 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 				}
 			} else {
 				val entry = curEntry
-				curEntry = entry!!.kNext
+				curEntry = entry.kNext
 				if (curEntry == null) {
 					for (i in (entry.kHash + 1) until size) {
 						curEntry = k2v[i]
@@ -474,6 +474,7 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 		override val value: V
 			get() = checkRemoved(entry.v)
 
+		@Suppress("NOTHING_TO_INLINE")
 		private inline fun <T>checkRemoved(result: T): T {
 			if (entry.isRemoved) error("this entry is not valid")
 			return result
@@ -508,7 +509,6 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 
 		override fun remove(element: V): Boolean {
 			val entry = getEntryByValue(element) ?: return false
-			val v = entry.k
 			entry.remove()
 			return true
 		}
@@ -547,7 +547,6 @@ class MutableHashBiMap1<K, V> @JvmOverloads constructor(initialCapacity: Int = 1
 
 		override fun remove(element: K): Boolean {
 			val entry = getEntryByKey(element) ?: return false
-			val v = entry.k
 			entry.remove()
 			return true
 		}

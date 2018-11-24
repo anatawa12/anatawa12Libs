@@ -12,7 +12,7 @@ import java.lang.Float.intBitsToFloat
 /**
  * DataInputStream with endian
  */
-class EndianedDataInputStream private constructor(stream: InputStream) : InputStream(), DataInput, Closeable {
+class EndianedDataInputStream constructor(stream: InputStream) : InputStream(), DataInput, Closeable {
 	private val inputStream: DataInputStream
 	private val base = PushbackInputStream(stream)
 

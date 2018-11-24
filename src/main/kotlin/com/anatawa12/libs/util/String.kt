@@ -25,7 +25,7 @@ fun String.replaceAChars(froms: String, tos: String): String {
 /**
  * alias of [Normalizer.normalize]
  */
-fun String.normalize(form: Normalizer.Form): String = Normalizer.normalize(this,Normalizer.Form.NFKC)
+fun String.normalize(form: Normalizer.Form): String = Normalizer.normalize(this, form)
 
 /**
  * for code gen

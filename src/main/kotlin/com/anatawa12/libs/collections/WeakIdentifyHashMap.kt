@@ -35,18 +35,18 @@ class WeakIdentifyHashMap<K : Any,V> @JvmOverloads constructor(initialCapacity: 
 		for (i in array.indices) array[i] = null
 	}
 
-	override fun put(k: K, v: V): V? {
+	override fun put(key: K, value: V): V? {
 		removes()
 		size++
-		val (index, prev, cur) = find(k)
+		val (index, prev, cur) = find(key)
 		if (cur != null) {
 			val result = cur.value
-			cur.value = v
+			cur.value = value
 			return result
 		} else if (prev == null) {
-			array[index] = Entry(k, v)
+			array[index] = Entry(key, value)
 		} else {
-			prev.next = Entry(k, v)
+			prev.next = Entry(key, value)
 		}
 		resize()
 		return null
@@ -76,6 +76,7 @@ class WeakIdentifyHashMap<K : Any,V> @JvmOverloads constructor(initialCapacity: 
 
 	override fun containsValue(value: V): Boolean {
 		for (cur in array) {
+			@Suppress("NAME_SHADOWING")
 			var cur = cur ?: continue
 			while (true) {
 				if (cur.value == value) return true
@@ -85,7 +86,7 @@ class WeakIdentifyHashMap<K : Any,V> @JvmOverloads constructor(initialCapacity: 
 		return false
 	}
 
-	override fun get(k: K): V? = find(k).third?.value
+	override fun get(key: K): V? = find(key).third?.value
 
 	override fun isEmpty() = size == 0
 
