@@ -36,7 +36,7 @@ class EndianedDataOutputStream private constructor(private val baseDataInput: Da
 	}
 
 	override fun writeInt(v: Int) {
-		baseDataInput.writeInt(v)
+		baseDataInput.writeInt(endian.fromBigEndian(v))
 	}
 
 	override fun writeLong(v: Long) {

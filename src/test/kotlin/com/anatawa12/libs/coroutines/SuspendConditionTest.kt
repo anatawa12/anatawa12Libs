@@ -1,10 +1,11 @@
 package com.anatawa12.libs.coroutines
 
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
-import kotlinx.coroutines.experimental.sync.Mutex
-import kotlinx.coroutines.experimental.sync.withLock
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -21,7 +22,7 @@ class SuspendConditionTest {
 
 		val condition = SuspendCondition(mutex)
 
-		val job0 = launch {
+		val job0 = GlobalScope.launch {
 			buffer.append("job0 start\n")
 			delay(150)
 			mutex.withLock {
@@ -31,7 +32,7 @@ class SuspendConditionTest {
 			}
 		}
 		Thread.sleep(50)
-		val job1 = launch {
+		val job1 = GlobalScope.launch {
 			buffer.append("job1 start\n")
 			delay(50)
 			mutex.withLock {
